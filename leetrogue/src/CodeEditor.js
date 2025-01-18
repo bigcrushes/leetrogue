@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { AlertCircle, Play } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from './components/ui/card';
+import { AlertCircle } from 'lucide-react';
+import { Button, Box, Typography, TextField} from '@mui/material';
 import { Alert, AlertDescription } from './components/ui/alert';
+import { useTheme } from '@mui/material/styles';
 
 const CodeEditor = () => {
   const [code, setCode] = useState('print("Hello, World!")');
@@ -9,6 +10,8 @@ const CodeEditor = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [backendStatus, setBackendStatus] = useState('checking');
+
+  const theme = useTheme()
 
   // Check if backend is running when component mounts
   useEffect(() => {
@@ -77,52 +80,60 @@ const CodeEditor = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <span>Python Code Editor</span>
-            <div className="flex items-center gap-4">
-              <span className={`text-sm ${
-                backendStatus === 'connected' ? 'text-green-500' : 'text-red-500'
-              }`}>
-                {backendStatus === 'connected' ? 'Backend Connected' : 'Backend Disconnected'}
-              </span>
-              <button
-                onClick={executeCode}
-                disabled={isLoading || backendStatus !== 'connected'}
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <Play className="w-4 h-4" />
-                {isLoading ? 'Running...' : 'Run Code'}
-              </button>
-            </div>
-          </CardTitle>
-        </CardHeader>
-        
-        <CardContent>
-          <textarea
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="w-full h-64 bg-gray-900 text-gray-100 font-mono p-4 rounded-lg focus:outline-none resize-none mb-4"
-            spellCheck="false"
-            placeholder="Enter your Python code here..."
-          />
+    <Box display="flex" flexDirection="row" width="100vw" height="100vh">
+      <Box width="50vw" padding={4} sx={{backgroundColor: theme.palette.primary.main}}>
+        <Typography variant='h3'> Problem Set 1</Typography>
+      </Box>
 
-          {error && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
+      <Box display="flex" flexDirection="column" width="100vw" height="100vh" alignItems="center" padding={10} sx={{ gap:5 }}>
+        <Typography variant="h3">Enter code here</Typography>
           
-          <div className="bg-gray-900 text-white p-4 rounded-lg font-mono whitespace-pre-wrap">
-            {output || 'Output will appear here...'}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+        <TextField
+          fullWidth
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          placeholder="Enter your Python code here..."
+          multiline
+          rows={10} // Initial visible rows
+          sx={{
+            height: 300, // Fixed height for the TextField
+            '& .MuiOutlinedInput-root': {
+              height: '100%', // Make the container match the full height
+              alignItems: 'start', // Align text to the top
+              overflow: 'auto', // Add overflow for scrolling
+            },
+            '& .MuiOutlinedInput-input': {
+              resize: 'none', // Disable manual resizing (optional)
+            },
+          }}
+          InputProps={{
+            style: {
+              height: '100%',
+              overflow: 'auto', // Ensure scrolling for the content
+            },
+          }}
+        />
+
+
+        <Button
+          onClick={executeCode}
+          disabled={isLoading || backendStatus !== 'connected'}
+        >
+          {isLoading ? 'Running...' : 'Run Code'}
+        </Button>
+
+        {error && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+            
+        <div className="bg-gray-900 text-white p-4 rounded-lg font-mono whitespace-pre-wrap">
+          {output || 'Output will appear here...'}
+        </div>
+      </Box>
+    </Box>
   );
 };
 
