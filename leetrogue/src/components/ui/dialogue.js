@@ -1,47 +1,110 @@
-import React from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, Typography } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Box,
+  Typography,
+  IconButton,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
-const Dialogue = ({ open, onClose, onConfirm, selectedBox, setSelectedBox, points }) => {
-  const handleBoxSelect = (box) => {
-    setSelectedBox(box);
+const Dialogue = ({ open, onClose, onConfirm, points }) => {
+  // State for tracking the counts of each option
+  const [selectionCounts, setSelectionCounts] = useState({
+    ifLoop: 0,
+    forLoop: 0,
+    imports: 0,
+  });
+
+  // Function to calculate the total points deduction
+  const calculateDeduction = () => {
+    return (
+      selectionCounts.ifLoop * 10 +
+      selectionCounts.forLoop * 20 +
+      selectionCounts.imports * 50
+    );
   };
 
-  const calculateDeduction = () => {
-    if (selectedBox === "ifLoop") return 10;
-    if (selectedBox === "forLoop") return 20;
-    if (selectedBox === "imports") return 50;
-    return 0;
+  // Calculate remaining points
+  const remainingPoints = Math.max(points - calculateDeduction(), 0);
+
+  // Function to handle increment for a specific option
+  const handleIncrement = (key, cost) => {
+    // Prevent increment if it would drop remaining points below 0
+    if (remainingPoints - cost >= 0) {
+      setSelectionCounts((prev) => ({ ...prev, [key]: prev[key] + 1 }));
+    }
+  };
+
+  // Function to handle decrement for a specific option
+  const handleDecrement = (key) => {
+    setSelectionCounts((prev) => ({
+      ...prev,
+      [key]: Math.max(0, prev[key] - 1), // Prevent the count from going below 0
+    }));
   };
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Choose an Option</DialogTitle>
+      <DialogTitle color="black">Choose an Option</DialogTitle>
       <DialogContent>
-        <Typography>Points: {points - calculateDeduction()}</Typography>
+        <Typography color="black">Points Remaining: {remainingPoints}</Typography>
         <Box display="flex" flexDirection="column" gap={2} marginTop={2}>
-          <Button
-            variant={selectedBox === "ifLoop" ? "contained" : "outlined"}
-            onClick={() => handleBoxSelect("ifLoop")}
-          >
-            Extra if loop (-10 points)
-          </Button>
-          <Button
-            variant={selectedBox === "forLoop" ? "contained" : "outlined"}
-            onClick={() => handleBoxSelect("forLoop")}
-          >
-            Extra for/while loop (-30 points)
-          </Button>
-          <Button
-            variant={selectedBox === "imports" ? "contained" : "outlined"}
-            onClick={() => handleBoxSelect("imports")}
-          >
-            Extra import (-50 points)
-          </Button>
+
+          {/* Map through the options and dynamically render UI */}
+          {[
+            { label: "Extra if loop (-10 points)", key: "ifLoop", cost: 10 },
+            { label: "Extra for loop (-20 points)", key: "forLoop", cost: 20 },
+            { label: "Extra import (-50 points)", key: "imports", cost: 50 },
+          ].map((option) => (
+            <Box
+              key={option.key}
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              padding={1}
+              border="1px solid #ddd"
+              borderRadius={1}
+            >
+              {/* Decrement Button */}
+              <IconButton
+                onClick={() => handleDecrement(option.key)}
+                disabled={selectionCounts[option.key] === 0}
+              >
+                <RemoveIcon />
+              </IconButton>
+
+              {/* Main Button Showing Option Label and Count */}
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => console.log(option.label)}
+              >
+                {option.label} ({selectionCounts[option.key]})
+              </Button>
+
+              {/* Increment Button */}
+              <IconButton
+                onClick={() => handleIncrement(option.key, option.cost)}
+                disabled={remainingPoints < option.cost} // Disable if not enough points
+              >
+                <AddIcon />
+              </IconButton>
+            </Box>
+          ))}
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={onConfirm} disabled={!selectedBox}>
+        <Button
+          onClick={() => {
+            onConfirm({ selectionCounts, remainingPoints }); // Pass the current selections
+            setSelectionCounts({ ifLoop: 0, forLoop: 0, imports: 0 }); // Reset counts
+          }}
+        >
           Confirm
         </Button>
       </DialogActions>
@@ -50,3 +113,4 @@ const Dialogue = ({ open, onClose, onConfirm, selectedBox, setSelectedBox, point
 };
 
 export default Dialogue;
+

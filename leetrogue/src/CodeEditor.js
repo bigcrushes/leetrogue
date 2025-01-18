@@ -18,7 +18,6 @@ const CodeEditor = () => {
   const [error, setError] = useState('');
   const [backendStatus, setBackendStatus] = useState('checking');
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedBox, setSelectedBox] = useState(null); // For tracking the selected box
 
   const theme = useTheme()
 
@@ -97,19 +96,23 @@ const CodeEditor = () => {
     setDialogOpen(false);
     setCode((code) => question < 3 ? 'def Solution(x):\n\t' : 'def Solution(times, n, k):\n\t')
     setQuestion((question) => question + 1);
-    setSelectedBox(null); // Reset selection
   };
 
-  const handleConfirm = () => {
-    let deduction = 0;
 
-    if (selectedBox === "ifLoop") deduction = 10;
-    else if (selectedBox === "forLoop") deduction = 30;
-    else if (selectedBox === "imports") deduction = 50;
-
-    setPoints((prevPoints) => prevPoints - deduction); // Deduct points
-    handleDialogClose(); // Close the dialog
+  const handleConfirm = ({ selectionCounts, remainingPoints }) => {
+    // Update individual states based on selectionCounts
+    setIfLoop((prev) => prev + selectionCounts.ifLoop);
+    setForLoop((prev) => prev + selectionCounts.forLoop);
+    setImports((prev) => prev + selectionCounts.imports);
+  
+    // Update points
+    setPoints(remainingPoints);
+    setOutput('');
+  
+    // Close the dialog
+    handleDialogClose();
   };
+  
 
   return (
     <div>
@@ -207,8 +210,6 @@ const CodeEditor = () => {
           open={dialogOpen}
           onClose={handleDialogClose}
           onConfirm={handleConfirm}
-          selectedBox={selectedBox}
-          setSelectedBox={setSelectedBox}
           points={points}
         />
       </Box>
