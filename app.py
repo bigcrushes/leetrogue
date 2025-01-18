@@ -12,8 +12,8 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 test_cases = ["\n\nassert Solution(246) == True\nassert Solution(137) == False\n", \
               "\n\nassert Solution(125676521) == True\nassert Solution(1921) == False\nassert Solution(1) == True",\
               "\n\nassert Solution([3,1]) == 2\nassert Solution([2,2,2]) == 7\nassert Solution([3,2,1,5]) == 6", \
-              "\n\nassert Solution('babad') == 'bab'\nassert Solution('cbbd') == 'bb'", \
-              "\n\nassert Solution([[2,1,1],[2,3,1],[3,4,1]], 4, 2) == 2\nassert Solution([[1,2,1]], 2, 1) == 1\n"]
+              "\n\nassert Solution('babad') == 'aba'\nassert Solution('cbbd') == 'bb'", \
+              "\n\nassert Solution([[1,2,1]], 2, 1) == 1\nassert Solution([[2,1,1],[2,3,1],[3,4,1]], 4, 2) == 2\n"]
 
 @app.route('/execute', methods=['POST'])
 def execute_code():

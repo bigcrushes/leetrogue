@@ -81,7 +81,7 @@ const CodeEditor = () => {
         setOutput(data.output);
         if(data.output == "Level passed!"){
             setDialogOpen(true); // Open dialogue only on level success
-            setPoints((points) => points + 30 + question * 10); // e.g
+            setPoints((points) => points + 40 + question * 10); // e.g
         }
       }
     } catch (error) {
