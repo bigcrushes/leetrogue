@@ -133,7 +133,7 @@ const CodeEditor = () => {
     </AppBar>
 
     <Box display="flex" flexDirection="row" width="100vw" height="100vh">
-      <Box width="50vw" padding={4} sx={{ gap:5, backgroundColor: theme.palette.primary.main}}>
+      <Box width="50vw" padding={4} paddingRight={0} sx={{ gap:5, backgroundColor: theme.palette.primary.main, backgroundImage: `linear-gradient(rgba(5, 8, 45, 0.8), rgba(6, 9, 43, 0.8)), url('/leetrogue logo.jpg')`, backgroundRepeat: "no-repeat", backgroundSize: `500px 800px`}}>
         <Stack direction="row" spacing={2}>
           <EmojiObjectsTwoToneIcon fontSize='large' sx={{ color:"#FFFFFF" }}/>
           <Typography variant='h3'> Problem Set {question + 1}</Typography>
@@ -157,7 +157,7 @@ const CodeEditor = () => {
         </Typography>
       </Box>
 
-      <Box display="flex" flexDirection="column" width="100vw" height="100vh" alignItems="center" padding={10} 
+      <Box display="flex" flexDirection="column" width="100vw" height="100vh" alignItems="center" padding={10} paddingTop={5}
         sx={{ gap:5, backgroundColor: theme.palette.secondary.main }}>
         <Typography variant="h3">Enter code here</Typography>
           
@@ -170,14 +170,28 @@ const CodeEditor = () => {
           multiline
           rows={10} // Initial visible rows
           sx={{
-            height: 300, // Fixed height for the TextField
+            backgroundColor: "#404040",
+            height: 350, // Fixed height for the TextField
+            borderRadius: '8px', // Apply curved borders
             '& .MuiOutlinedInput-root': {
               height: '100%', // Make the container match the full height
               alignItems: 'start', // Align text to the top
               overflow: 'auto', // Add overflow for scrolling
+              borderRadius: '8px', // Curved border for the input
+              borderColor: 'white', // Set border color to white
+              '& fieldset': {
+                borderColor: 'white', // Ensure the outlined border is white
+              },
+              '&:hover fieldset': {
+                borderColor: 'white', // Keep border white on hover
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: 'white', // Keep border white when focused
+              },
             },
             '& .MuiOutlinedInput-input': {
               resize: 'none', // Disable manual resizing (optional)
+              color: 'white', // Ensure text color is white for readability
             },
           }}
           InputProps={{
@@ -188,11 +202,12 @@ const CodeEditor = () => {
           }}
         />
 
+
         <Button
           onClick={executeCode}
           disabled={isLoading || backendStatus !== 'connected'}
         >
-          {isLoading ? 'Running...' : 'Run Code'}
+          <Typography>{isLoading ? 'Running...' : 'Run Code'}</Typography>
         </Button>
 
         {error && (
