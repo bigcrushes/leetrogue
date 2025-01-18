@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
-import { Button, Box, Typography, TextField} from '@mui/material';
+import { Button, Box, Typography, TextField } from '@mui/material';
 import { Alert, AlertDescription } from './components/ui/alert';
+import Dialogue from './components/ui/dialogue';
 import { useTheme } from '@mui/material/styles';
 
 const CodeEditor = () => {
@@ -11,6 +12,8 @@ const CodeEditor = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [backendStatus, setBackendStatus] = useState('checking');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedBox, setSelectedBox] = useState(null); // For tracking the selected box
 
   const theme = useTheme()
 
@@ -48,6 +51,8 @@ const CodeEditor = () => {
     setIsLoading(true);
     setError('');
     setOutput('');
+    setDialogOpen(true); // Open the dialog when "Run Code" is clicked
+
 
     try {
       console.log('Sending code to backend:', code); // Debug log
@@ -80,8 +85,23 @@ const CodeEditor = () => {
     }
   };
 
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+    setSelectedBox(null); // Reset selection
+  };
+
+  const handleConfirm = () => {
+    console.log('User selected box:', selectedBox); // Handle the confirmed selection
+    handleDialogClose(); // Close the dialog
+  };
+
+
   return (
     <Box display="flex" flexDirection="row" width="100vw" height="100vh">
+<<<<<<< HEAD
+      <Box width="50vw" padding={4} sx={{ backgroundColor: theme.palette.primary.main }}>
+        <Typography variant="h3">Problem Set 1</Typography>
+=======
       <Box width="50vw" padding={4} sx={{backgroundColor: theme.palette.primary.main}}>
         <Typography variant='h3'> Problem Set {question + 1}</Typography>
 
@@ -90,11 +110,12 @@ const CodeEditor = () => {
             {question === 1 && <span>Write a function that returns True if the number parameter is a palindrome and False if the number parameter is not a palindrome.</span>}
                
         </Typography>
+>>>>>>> 4983c4b0bdfd2f60ce4cf53f8a07c2c29c241ced
       </Box>
 
-      <Box display="flex" flexDirection="column" width="100vw" height="100vh" alignItems="center" padding={10} sx={{ gap:5 }}>
+      <Box display="flex" flexDirection="column" width="100vw" height="100vh" alignItems="center" padding={10} sx={{ gap: 5 }}>
         <Typography variant="h3">Enter code here</Typography>
-          
+
         <TextField
           fullWidth
           value={code}
@@ -102,26 +123,25 @@ const CodeEditor = () => {
           onKeyDown={handleKeyDown}
           placeholder="Enter your Python code here..."
           multiline
-          rows={10} // Initial visible rows
+          rows={10}
           sx={{
-            height: 300, // Fixed height for the TextField
+            height: 300,
             '& .MuiOutlinedInput-root': {
-              height: '100%', // Make the container match the full height
-              alignItems: 'start', // Align text to the top
-              overflow: 'auto', // Add overflow for scrolling
+              height: '100%',
+              alignItems: 'start',
+              overflow: 'auto',
             },
             '& .MuiOutlinedInput-input': {
-              resize: 'none', // Disable manual resizing (optional)
+              resize: 'none',
             },
           }}
           InputProps={{
             style: {
               height: '100%',
-              overflow: 'auto', // Ensure scrolling for the content
+              overflow: 'auto',
             },
           }}
         />
-
 
         <Button
           onClick={executeCode}
@@ -136,10 +156,19 @@ const CodeEditor = () => {
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
-            
+
         <div className="bg-gray-900 text-white p-4 rounded-lg font-mono whitespace-pre-wrap">
           {output }
         </div>
+
+        {/* Use the extracted Dialogue component */}
+        <Dialogue
+          open={dialogOpen}
+          onClose={handleDialogClose}
+          onConfirm={handleConfirm}
+          selectedBox={selectedBox}
+          setSelectedBox={setSelectedBox}
+        />
       </Box>
     </Box>
   );
