@@ -81,7 +81,7 @@ const CodeEditor = () => {
         setOutput(data.output);
         if(data.output == "Level passed!"){
             setDialogOpen(true); // Open dialogue only on level success
-            setPoints(100); // e.g
+            setPoints((points) => points + 100); // e.g
         }
       }
     } catch (error) {
@@ -94,8 +94,10 @@ const CodeEditor = () => {
 
   const handleDialogClose = () => {
     setDialogOpen(false);
+    setCode((code) => question < 3 ? 'def Solution(x):\n\t' : 'def Solution(times, n, k):\n\t')
     setQuestion((question) => question + 1);
   };
+
 
   const handleConfirm = ({ selectionCounts, remainingPoints }) => {
     // Update individual states based on selectionCounts
@@ -124,7 +126,7 @@ const CodeEditor = () => {
 
         <Typography> If Loops: {ifloop} </Typography>
 
-        <Typography> For Loops: {forloop} </Typography>
+        <Typography> For/While Loops: {forloop} </Typography>
 
         <Typography> Import Statements: {imports} </Typography>
       </Stack>
@@ -139,7 +141,19 @@ const CodeEditor = () => {
 
         <Typography variant='h5' paddingTop={5}>
           {question === 0 && <span>Write a function that returns True if the parameter is even and False if the parameter is odd.</span>}
-          {question === 1 && <span>Write a function that returns True if the number parameter is a palindrome and False if the number parameter is not a palindrome.</span>}  
+          {question === 1 && <span>Write a function that returns True if the number parameter is a palindrome and False if the number parameter is not a palindrome.</span>} 
+          {question === 2 && <span>Given a list of numbers, x, find the maximum possible bitwise OR of a subset of x and return the number of different non-empty subsets that give that maximum OR.</span>}
+          {question === 3 && <span>Given a string, find the longest palindromic substring.</span>}
+          {question === 4 && <span>You are given n nodes and a list of directed edges (u, v, w) where u is the source node, v is the target node and w is the time taken. Given a node k, return the minimum time it takes for all n nodes to receive the signal. </span>}  
+        </Typography>
+        <br/>   
+        <br/>
+        <Typography variant='h7' paddingTop={5} sx={{ color:"#FFFFFF" }}>
+          {question === 0 && <span>Input: 5<br/>Output: False</span>}
+          {question === 1 && <span>Input: 12321<br/>Output: True<br/><br/>Input: 589<br/>Output: False</span>} 
+          {question === 2 && <span>Input: [2,2,2]<br/>Output: 7</span>}
+          {question === 3 && <span>Input: "cbbd"<br/>Output: "bb"</span>}
+          {question === 4 && <span>Input: [[1,2,1]], 2, 1<br/>Output: 1</span>}  
         </Typography>
       </Box>
 

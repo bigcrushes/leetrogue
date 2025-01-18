@@ -54,6 +54,7 @@ const Dialogue = ({ open, onClose, onConfirm, points }) => {
       <DialogContent>
         <Typography color="black">Points Remaining: {remainingPoints}</Typography>
         <Box display="flex" flexDirection="column" gap={2} marginTop={2}>
+
           {/* Map through the options and dynamically render UI */}
           {[
             { label: "Extra if loop (-10 points)", key: "ifLoop", cost: 10 },
