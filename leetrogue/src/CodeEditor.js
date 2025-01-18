@@ -66,7 +66,7 @@ const CodeEditor = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code, question }),
+        body: JSON.stringify({ code, question, ifloop, forloop, imports }),
       });
       
       if (!response.ok) {
@@ -79,7 +79,7 @@ const CodeEditor = () => {
       if (data.error) {
         setError("Level failed...");
       } else {
-        setOutput("Level Passed!");
+        setOutput(data.output);
       }
     } catch (error) {
       console.error('Error executing code:', error); // Debug log

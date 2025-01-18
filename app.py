@@ -3,13 +3,15 @@ from flask_cors import CORS
 import subprocess
 import tempfile
 import os
+import re
 
 app = Flask(__name__)
 # Configure CORS to accept requests from React's development server
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 test_cases = ["\n\nassert Solution(246) == True\nassert Solution(137) == False\n", \
-              "\n\nassert Solution(125676521) == True\nassert Solution(1921) == False\nassert Solution(1) == True"]
+              "\n\nassert Solution(125676521) == True\nassert Solution(1921) == False\nassert Solution(1) == True",\
+                ]
 
 @app.route('/execute', methods=['POST'])
 def execute_code():
@@ -21,6 +23,18 @@ def execute_code():
     code = request.json.get('code')
     if not code:
         return jsonify({"error": "No code provided"}), 400
+    
+    res = {}
+    for word in ["if","for","import"]: 
+        res[word] = 0
+        res[word] = re.findall(rf'\b{word}\b', code)
+
+    print(res)
+
+    if len(res["if"]) > request.json.get('ifloop') or len(res["for"]) > request.json.get('forloop') or len(res["import"]) > request.json.get('imports'):
+        return jsonify({
+            'output': "Too many if/for/imports!"
+        })
     
     print(f"Executing code: {code}") # Debug print
     
@@ -42,6 +56,11 @@ def execute_code():
         
         print(f"Output: {result.stdout}") # Debug print
         print(f"Error: {result.stderr}") # Debug print
+
+        if not result.stderr:
+            return jsonify({
+            'output': "Level passed!",
+        })
         
         return jsonify({
             'output': result.stdout,
