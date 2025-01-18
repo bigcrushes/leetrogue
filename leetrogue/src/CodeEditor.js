@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
-import { Button, Box, Typography, TextField} from '@mui/material';
+import { Button, Box, Typography, TextField, Stack} from '@mui/material';
 import { Alert, AlertDescription } from './components/ui/alert';
 import { useTheme } from '@mui/material/styles';
+import EmojiObjectsTwoToneIcon from '@mui/icons-material/EmojiObjectsTwoTone';
 
 const CodeEditor = () => {
   const [code, setCode] = useState('print("Hello, World!")');
@@ -82,15 +83,19 @@ const CodeEditor = () => {
 
   return (
     <Box display="flex" flexDirection="row" width="100vw" height="100vh">
-      <Box width="50vw" padding={4} sx={{backgroundColor: theme.palette.primary.main}}>
-        <Typography variant='h3'> Problem Set 1</Typography>
+      <Box width="50vw" padding={4} sx={{ gap:5, backgroundColor: theme.palette.primary.main}}>
+        <Stack direction="row" spacing={2}>
+          <EmojiObjectsTwoToneIcon fontSize='large' sx={{ color:"#FFFFFF" }}/>
+          <Typography variant='h3'> Problem Set 1</Typography>
+        </Stack>
 
-        <Typography variant='h5'>
+        <Typography variant='h5' paddingTop={5}>
             {question === 1 && <span>Write a function that returns True if the parameter is even and False if the parameter is odd.</span>}    
         </Typography>
       </Box>
 
-      <Box display="flex" flexDirection="column" width="100vw" height="100vh" alignItems="center" padding={10} sx={{ gap:5 }}>
+      <Box display="flex" flexDirection="column" width="100vw" height="100vh" alignItems="center" padding={10} 
+        sx={{ gap:5, backgroundColor: theme.palette.secondary.main }}>
         <Typography variant="h3">Enter code here</Typography>
           
         <TextField

@@ -3,22 +3,20 @@ import { createTheme } from '@mui/material/styles';
 export const theme = createTheme({
     typography: {
         fontFamily: 'Inter, sans-serif',
-        h1: { color: '#000000' },
-        h2: { color: '#000000' },
-        h3: { color: '#000000' },
-        h4: { color: '#000000' },
-        h5: { color: '#000000' },
-        h6: { color: '#000000' },
         allVariants: {
-          color: '#3a3838', // default
+          color: '#FFFFFF', // default
         },
     },
     palette: {
       primary: {
-        main: '#65366a',
+        main: '#070E4A',
       },
       secondary: {
-        main: '#9c84a1'
+        main: '#FF6666'
+      },
+      text: {  // Add this to control text colors
+        primary: '#FFFFFF',
+        secondary: '#757575'
       }
     },
 });
