@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material/styles';
 
 const CodeEditor = () => {
   const [code, setCode] = useState('def Solution(x):\n\t');
-  const [question, setQuestion] = useState(1)
+  const [question, setQuestion] = useState(0)
   const [output, setOutput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -98,10 +98,7 @@ const CodeEditor = () => {
 
   return (
     <Box display="flex" flexDirection="row" width="100vw" height="100vh">
-<<<<<<< HEAD
-      <Box width="50vw" padding={4} sx={{ backgroundColor: theme.palette.primary.main }}>
-        <Typography variant="h3">Problem Set 1</Typography>
-=======
+
       <Box width="50vw" padding={4} sx={{backgroundColor: theme.palette.primary.main}}>
         <Typography variant='h3'> Problem Set {question + 1}</Typography>
 
@@ -110,7 +107,6 @@ const CodeEditor = () => {
             {question === 1 && <span>Write a function that returns True if the number parameter is a palindrome and False if the number parameter is not a palindrome.</span>}
                
         </Typography>
->>>>>>> 4983c4b0bdfd2f60ce4cf53f8a07c2c29c241ced
       </Box>
 
       <Box display="flex" flexDirection="column" width="100vw" height="100vh" alignItems="center" padding={10} sx={{ gap: 5 }}>
