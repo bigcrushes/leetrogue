@@ -12,7 +12,7 @@ export const theme = createTheme({
         main: '#070E4A',
       },
       secondary: {
-        main: '#FF6666'
+        main: '#202020'
       },
       text: {  // Add this to control text colors
         primary: '#FFFFFF',
