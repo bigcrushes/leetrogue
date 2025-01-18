@@ -29,7 +29,7 @@ const Dialogue = ({ open, onClose, onConfirm, selectedBox, setSelectedBox, point
             variant={selectedBox === "forLoop" ? "contained" : "outlined"}
             onClick={() => handleBoxSelect("forLoop")}
           >
-            Extra for loop (-20 points)
+            Extra for/while loop (-30 points)
           </Button>
           <Button
             variant={selectedBox === "imports" ? "contained" : "outlined"}

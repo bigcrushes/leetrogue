@@ -11,7 +11,9 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 test_cases = ["\n\nassert Solution(246) == True\nassert Solution(137) == False\n", \
               "\n\nassert Solution(125676521) == True\nassert Solution(1921) == False\nassert Solution(1) == True",\
-                ]
+              "\n\nassert Solution([3,1]) == 2\nassert Solution([2,2,2]) == 7\nassert Solution([3,2,1,5]) == 6", \
+              "\n\nassert Solution('babad') == 'bab'\nassert Solution('cbbd') == 'bb'", \
+              "\n\nassert Solution([[2,1,1],[2,3,1],[3,4,1]], 4, 2) == 2\nassert Solution([[1,2,1]], 2, 1) == 1\n"]
 
 @app.route('/execute', methods=['POST'])
 def execute_code():
@@ -25,13 +27,13 @@ def execute_code():
         return jsonify({"error": "No code provided"}), 400
     
     res = {}
-    for word in ["if","for","import"]: 
+    for word in ["if","for","while", "import"]: 
         res[word] = 0
         res[word] = re.findall(rf'\b{word}\b', code)
 
     print(res)
 
-    if len(res["if"]) > request.json.get('ifloop') or len(res["for"]) > request.json.get('forloop') or len(res["import"]) > request.json.get('imports'):
+    if len(res["if"]) > request.json.get('ifloop') or (len(res["for"]) + len(res["while"])) > request.json.get('forloop') or len(res["import"]) > request.json.get('imports'):
         return jsonify({
             'output': "Too many if/for/imports!"
         })
