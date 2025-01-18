@@ -24,7 +24,7 @@ const Dialogue = ({ open, onClose, onConfirm, points }) => {
   const calculateDeduction = () => {
     return (
       selectionCounts.ifLoop * 10 +
-      selectionCounts.forLoop * 20 +
+      selectionCounts.forLoop * 30 +
       selectionCounts.imports * 50
     );
   };
@@ -58,7 +58,7 @@ const Dialogue = ({ open, onClose, onConfirm, points }) => {
           {/* Map through the options and dynamically render UI */}
           {[
             { label: "Extra if loop (-10 points)", key: "ifLoop", cost: 10 },
-            { label: "Extra for loop (-20 points)", key: "forLoop", cost: 20 },
+            { label: "Extra for loop (-30 points)", key: "forLoop", cost: 30 },
             { label: "Extra import (-50 points)", key: "imports", cost: 50 },
           ].map((option) => (
             <Box

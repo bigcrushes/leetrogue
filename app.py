@@ -35,7 +35,7 @@ def execute_code():
 
     if len(res["if"]) > request.json.get('ifloop') or (len(res["for"]) + len(res["while"])) > request.json.get('forloop') or len(res["import"]) > request.json.get('imports'):
         return jsonify({
-            'output': "Too many if/for/imports!"
+            'output': "Too many if/for/while/imports!"
         })
     
     print(f"Executing code: {code}") # Debug print

@@ -81,7 +81,7 @@ const CodeEditor = () => {
         setOutput(data.output);
         if(data.output == "Level passed!"){
             setDialogOpen(true); // Open dialogue only on level success
-            setPoints((points) => points + 100); // e.g
+            setPoints((points) => points + 30 + question * 10); // e.g
         }
       }
     } catch (error) {
@@ -165,6 +165,7 @@ const CodeEditor = () => {
           fullWidth
           value={code}
           onChange={(e) => setCode(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Enter your Python code here..."
           multiline
           rows={10} // Initial visible rows
