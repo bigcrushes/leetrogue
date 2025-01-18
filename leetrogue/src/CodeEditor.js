@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
-import { Button, Box, Typography, TextField, Stack} from '@mui/material';
+import { AppBar, Button, Box, Typography, TextField, Stack} from '@mui/material';
 import { Alert, AlertDescription } from './components/ui/alert';
 import { useTheme } from '@mui/material/styles';
 import Dialogue from './components/ui/dialogue';
@@ -100,6 +100,23 @@ const CodeEditor = () => {
   };
 
   return (
+    <div>
+    <AppBar position="static" sx={{ backgroundColor:"#404040", height:70, padding:3, paddingLeft: 15}}>
+      <Stack direction="row" spacing={8}>
+        <img src="/leetrogue logo.jpg" style={{ width: '70px', position:'absolute', left:0, top:0, height: 'auto' }} ></img>
+
+        <Typography> LEET ROGUE </Typography>
+
+        <Typography paddingLeft={20}> Aura Points: {points} </Typography>
+
+        <Typography> If Loops: {ifloop} </Typography>
+
+        <Typography> For Loops: {forloop} </Typography>
+
+        <Typography> Import Statements: {imports} </Typography>
+      </Stack>
+    </AppBar>
+
     <Box display="flex" flexDirection="row" width="100vw" height="100vh">
       <Box width="50vw" padding={4} sx={{ gap:5, backgroundColor: theme.palette.primary.main}}>
         <Stack direction="row" spacing={2}>
@@ -171,6 +188,7 @@ const CodeEditor = () => {
         />
       </Box>
     </Box>
+    </div>
   );
 };
 
