@@ -3,15 +3,18 @@ import { AlertCircle } from 'lucide-react';
 import { Button, Box, Typography, TextField, Stack} from '@mui/material';
 import { Alert, AlertDescription } from './components/ui/alert';
 import { useTheme } from '@mui/material/styles';
+import Dialogue from './components/ui/dialogue';
 import EmojiObjectsTwoToneIcon from '@mui/icons-material/EmojiObjectsTwoTone';
 
 const CodeEditor = () => {
-  const [code, setCode] = useState('print("Hello, World!")');
-  const [question, setQuestion] = useState(1)
+  const [code, setCode] = useState('def Solution(x):\n\t');
+  const [question, setQuestion] = useState(0)
   const [output, setOutput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [backendStatus, setBackendStatus] = useState('checking');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedBox, setSelectedBox] = useState(null); // For tracking the selected box
 
   const theme = useTheme()
 
@@ -49,6 +52,7 @@ const CodeEditor = () => {
     setIsLoading(true);
     setError('');
     setOutput('');
+    setDialogOpen(true); // Open the dialog when "Run Code" is clicked
 
     try {
       console.log('Sending code to backend:', code); // Debug log
@@ -81,16 +85,27 @@ const CodeEditor = () => {
     }
   };
 
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+    setSelectedBox(null); // Reset selection
+  };
+
+  const handleConfirm = () => {
+    console.log('User selected box:', selectedBox); // Handle the confirmed selection
+    handleDialogClose(); // Close the dialog
+  };
+
   return (
     <Box display="flex" flexDirection="row" width="100vw" height="100vh">
       <Box width="50vw" padding={4} sx={{ gap:5, backgroundColor: theme.palette.primary.main}}>
         <Stack direction="row" spacing={2}>
           <EmojiObjectsTwoToneIcon fontSize='large' sx={{ color:"#FFFFFF" }}/>
-          <Typography variant='h3'> Problem Set 1</Typography>
+          <Typography variant='h3'> Problem Set {question + 1}</Typography>
         </Stack>
 
         <Typography variant='h5' paddingTop={5}>
-            {question === 1 && <span>Write a function that returns True if the parameter is even and False if the parameter is odd.</span>}    
+          {question === 0 && <span>Write a function that returns True if the parameter is even and False if the parameter is odd.</span>}
+          {question === 1 && <span>Write a function that returns True if the number parameter is a palindrome and False if the number parameter is not a palindrome.</span>}  
         </Typography>
       </Box>
 
@@ -124,7 +139,6 @@ const CodeEditor = () => {
           }}
         />
 
-
         <Button
           onClick={executeCode}
           disabled={isLoading || backendStatus !== 'connected'}
@@ -142,6 +156,15 @@ const CodeEditor = () => {
         <div className="bg-gray-900 text-white p-4 rounded-lg font-mono whitespace-pre-wrap">
           {output }
         </div>
+
+        {/* Use the extracted Dialogue component */}
+        <Dialogue
+          open={dialogOpen}
+          onClose={handleDialogClose}
+          onConfirm={handleConfirm}
+          selectedBox={selectedBox}
+          setSelectedBox={setSelectedBox}
+        />
       </Box>
     </Box>
   );
