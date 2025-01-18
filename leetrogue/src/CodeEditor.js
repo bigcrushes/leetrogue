@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
-import { Button, Box, Typography, TextField, Stack} from '@mui/material';
+import { AppBar, Button, Box, Typography, TextField, Stack} from '@mui/material';
 import { Alert, AlertDescription } from './components/ui/alert';
 import { useTheme } from '@mui/material/styles';
 import Dialogue from './components/ui/dialogue';
@@ -56,7 +56,6 @@ const CodeEditor = () => {
     setIsLoading(true);
     setError('');
     setOutput('');
-    setDialogOpen(true); // Open the dialog when "Run Code" is clicked
 
     try {
       console.log('Sending code to backend:', code); // Debug log
@@ -79,7 +78,12 @@ const CodeEditor = () => {
       if (data.error) {
         setError("Level failed...");
       } else {
+
         setOutput(data.output);
+        if(data.output == "Level passed!"){
+            setDialogOpen(true); // Open dialogue only on level success
+            setPoints(100); // e.g
+        }
       }
     } catch (error) {
       console.error('Error executing code:', error); // Debug log
@@ -91,15 +95,39 @@ const CodeEditor = () => {
 
   const handleDialogClose = () => {
     setDialogOpen(false);
+    setQuestion((question) => question + 1);
     setSelectedBox(null); // Reset selection
   };
 
   const handleConfirm = () => {
-    console.log('User selected box:', selectedBox); // Handle the confirmed selection
+    let deduction = 0;
+
+    if (selectedBox === "ifLoop") deduction = 10;
+    else if (selectedBox === "forLoop") deduction = 20;
+    else if (selectedBox === "imports") deduction = 50;
+
+    setPoints((prevPoints) => prevPoints - deduction); // Deduct points
     handleDialogClose(); // Close the dialog
   };
 
   return (
+    <div>
+    <AppBar position="static" sx={{ backgroundColor:"#404040", height:70, padding:3, paddingLeft: 15}}>
+      <Stack direction="row" spacing={8}>
+        <img src="/leetrogue logo.jpg" style={{ width: '70px', position:'absolute', left:0, top:0, height: 'auto' }} ></img>
+
+        <Typography> LEET ROGUE </Typography>
+
+        <Typography paddingLeft={20}> Aura Points: {points} </Typography>
+
+        <Typography> If Loops: {ifloop} </Typography>
+
+        <Typography> For Loops: {forloop} </Typography>
+
+        <Typography> Import Statements: {imports} </Typography>
+      </Stack>
+    </AppBar>
+
     <Box display="flex" flexDirection="row" width="100vw" height="100vh">
       <Box width="50vw" padding={4} sx={{ gap:5, backgroundColor: theme.palette.primary.main}}>
         <Stack direction="row" spacing={2}>
@@ -168,9 +196,11 @@ const CodeEditor = () => {
           onConfirm={handleConfirm}
           selectedBox={selectedBox}
           setSelectedBox={setSelectedBox}
+          points={points}
         />
       </Box>
     </Box>
+    </div>
   );
 };
 
