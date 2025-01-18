@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.app-bar {
+    background-color: #404040;
+    height: 70px;
+    padding: 15px;
+  }
+  
+  .logo {
+    width: 70px;
+    height: auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  .points {
+    padding-left: 20px;
+  }
+  
+  .problem-box {
+    width: 50vw;
+    padding: 20px;
+    background-color: #1976d2; /* Replace with your primary theme color */
+    color: white;
+  }
+  
+  .editor-box {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: 100vh;
+    align-items: center;
+    padding: 10px;
+    background-color: #424242; /* Replace with your secondary theme color */
+    gap: 20px;
+  }
+  
+  .code-textbox {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px; /* Rounded corners */
+    overflow: auto;
+  }
+  
+  .run-button {
+    padding: 10px 20px;
+    border-radius: 15px; /* Rounded button */
+    background-color: #4caf50; /* Example: Green button */
+    color: white;
+  }
+  
+  .alert-box {
+    margin-bottom: 20px;
+  }
+  
+  .output-box {
+    background-color: #1e1e1e;
+    color: white;
+    padding: 10px;
+    border-radius: 10px; /* Rounded output box */
+    font-family: monospace;
+    white-space: pre-wrap;
+  }
+  
