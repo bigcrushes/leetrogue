@@ -7,6 +7,7 @@ import { useTheme } from '@mui/material/styles';
 
 const CodeEditor = () => {
   const [code, setCode] = useState('print("Hello, World!")');
+  const [question, setQuestion] = useState(1)
   const [output, setOutput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -61,7 +62,7 @@ const CodeEditor = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code, question }),
       });
       
       if (!response.ok) {
@@ -72,9 +73,9 @@ const CodeEditor = () => {
       console.log('Response from backend:', data); // Debug log
       
       if (data.error) {
-        setError(data.error);
+        setError("Level failed...");
       } else {
-        setOutput(data.output || 'Code executed successfully with no output');
+        setOutput("Level Passed!");
       }
     } catch (error) {
       console.error('Error executing code:', error); // Debug log
@@ -97,8 +98,17 @@ const CodeEditor = () => {
 
   return (
     <Box display="flex" flexDirection="row" width="100vw" height="100vh">
+<<<<<<< HEAD
       <Box width="50vw" padding={4} sx={{ backgroundColor: theme.palette.primary.main }}>
         <Typography variant="h3">Problem Set 1</Typography>
+=======
+      <Box width="50vw" padding={4} sx={{backgroundColor: theme.palette.primary.main}}>
+        <Typography variant='h3'> Problem Set 1</Typography>
+
+        <Typography variant='h5'>
+            {question === 1 && <span>Write a function that returns True if the parameter is even and False if the parameter is odd.</span>}    
+        </Typography>
+>>>>>>> 4983c4b0bdfd2f60ce4cf53f8a07c2c29c241ced
       </Box>
 
       <Box display="flex" flexDirection="column" width="100vw" height="100vh" alignItems="center" padding={10} sx={{ gap: 5 }}>
@@ -145,7 +155,7 @@ const CodeEditor = () => {
         )}
 
         <div className="bg-gray-900 text-white p-4 rounded-lg font-mono whitespace-pre-wrap">
-          {output || 'Output will appear here...'}
+          {output }
         </div>
 
         {/* Use the extracted Dialogue component */}

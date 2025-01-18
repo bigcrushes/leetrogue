@@ -25,6 +25,11 @@ def execute_code():
     with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
         f.write(code)
         temp_file_path = f.name
+
+        if request.json.get('question') == 1:
+            f.write("\n\n")
+            f.write("assert Solution(246) == True\n")
+            f.write("assert Solution(137) == False\n")
     
     try:
         # Execute the code and capture output
