@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Code Editor</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .editor-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .output-container {
+            margin-top: 20px;
+            background-color: #2d2d2d;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 100px;
+            font-family: monospace;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Python Code Editor</h1>
+        <div class="editor-container">
+            <textarea id="code-editor">print("Hello, World!")</textarea>
+            <button onclick="executeCode()">Run Code</button>
+        </div>
+        <div class="output-container" id="output"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    
+    <script>
+        // Initialize CodeMirror
+        var editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+            mode: "python",
+            theme: "monokai",
+            lineNumbers: true,
+            indentUnit: 4,
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            lineWrapping: true
+        });
+
+        function executeCode() {
+            const code = editor.getValue();
+            const outputDiv = document.getElementById('output');
+            
+            fetch('/execute', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    outputDiv.innerHTML = `<span class="error">${data.error}</span>`;
+                } else {
+                    outputDiv.innerHTML = data.output.replace(/\n/g, '<br>');
+                }
+            })
+            .catch(error => {
+                outputDiv.innerHTML = `<span class="error">Error: ${error}</span>`;
+            });
+        }
+    </script>
+</body>
+</html>
