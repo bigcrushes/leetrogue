@@ -56,7 +56,6 @@ const CodeEditor = () => {
     setIsLoading(true);
     setError('');
     setOutput('');
-    setDialogOpen(true); // Open the dialog when "Run Code" is clicked
 
     try {
       console.log('Sending code to backend:', code); // Debug log
@@ -80,6 +79,8 @@ const CodeEditor = () => {
         setError("Level failed...");
       } else {
         setOutput("Level Passed!");
+        setDialogOpen(true); // Open dialogue only on level success
+        setPoints(100); // e.g
       }
     } catch (error) {
       console.error('Error executing code:', error); // Debug log
@@ -91,11 +92,18 @@ const CodeEditor = () => {
 
   const handleDialogClose = () => {
     setDialogOpen(false);
+    setQuestion((question) => question + 1);
     setSelectedBox(null); // Reset selection
   };
 
   const handleConfirm = () => {
-    console.log('User selected box:', selectedBox); // Handle the confirmed selection
+    let deduction = 0;
+
+    if (selectedBox === "ifLoop") deduction = 10;
+    else if (selectedBox === "forLoop") deduction = 20;
+    else if (selectedBox === "imports") deduction = 50;
+
+    setPoints((prevPoints) => prevPoints - deduction); // Deduct points
     handleDialogClose(); // Close the dialog
   };
 
@@ -185,6 +193,7 @@ const CodeEditor = () => {
           onConfirm={handleConfirm}
           selectedBox={selectedBox}
           setSelectedBox={setSelectedBox}
+          points={points}
         />
       </Box>
     </Box>

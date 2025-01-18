@@ -34,7 +34,7 @@ def execute_code():
     try:
         # Execute the code and capture output
         result = subprocess.run(
-            ['python', temp_file_path], 
+            ['python3', temp_file_path], 
             capture_output=True,
             text=True,
             timeout=5
