@@ -8,6 +8,9 @@ app = Flask(__name__)
 # Configure CORS to accept requests from React's development server
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
+test_cases = ["\n\nassert Solution(246) == True\nassert Solution(137) == False\n", \
+              "\n\nassert Solution(125676521) == True\nassert Solution(1921) == False\nassert Solution(1) == True"]
+
 @app.route('/execute', methods=['POST'])
 def execute_code():
     print("Received request") # Debug print
@@ -26,10 +29,7 @@ def execute_code():
         f.write(code)
         temp_file_path = f.name
 
-        if request.json.get('question') == 1:
-            f.write("\n\n")
-            f.write("assert Solution(246) == True\n")
-            f.write("assert Solution(137) == False\n")
+        f.write(test_cases[request.json.get('question')])
     
     try:
         # Execute the code and capture output

@@ -5,7 +5,7 @@ import { Alert, AlertDescription } from './components/ui/alert';
 import { useTheme } from '@mui/material/styles';
 
 const CodeEditor = () => {
-  const [code, setCode] = useState('print("Hello, World!")');
+  const [code, setCode] = useState('def Solution(x):\n\t');
   const [question, setQuestion] = useState(1)
   const [output, setOutput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -83,10 +83,12 @@ const CodeEditor = () => {
   return (
     <Box display="flex" flexDirection="row" width="100vw" height="100vh">
       <Box width="50vw" padding={4} sx={{backgroundColor: theme.palette.primary.main}}>
-        <Typography variant='h3'> Problem Set 1</Typography>
+        <Typography variant='h3'> Problem Set {question + 1}</Typography>
 
         <Typography variant='h5'>
-            {question === 1 && <span>Write a function that returns True if the parameter is even and False if the parameter is odd.</span>}    
+            {question === 0 && <span>Write a function that returns True if the parameter is even and False if the parameter is odd.</span>}
+            {question === 1 && <span>Write a function that returns True if the number parameter is a palindrome and False if the number parameter is not a palindrome.</span>}
+               
         </Typography>
       </Box>
 
@@ -97,6 +99,7 @@ const CodeEditor = () => {
           fullWidth
           value={code}
           onChange={(e) => setCode(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Enter your Python code here..."
           multiline
           rows={10} // Initial visible rows
