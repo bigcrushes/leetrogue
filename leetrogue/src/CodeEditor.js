@@ -64,7 +64,7 @@ const CodeEditor = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code, question }),
+        body: JSON.stringify({ code, question, ifloop, forloop, imports }),
       });
       
       if (!response.ok) {
@@ -77,9 +77,12 @@ const CodeEditor = () => {
       if (data.error) {
         setError("Level failed...");
       } else {
-        setOutput("Level Passed!");
-        setDialogOpen(true); // Open dialogue only on level success
-        setPoints(100); // e.g
+
+        setOutput(data.output);
+        if(data.output == "Level passed!"){
+            setDialogOpen(true); // Open dialogue only on level success
+            setPoints(100); // e.g
+        }
       }
     } catch (error) {
       console.error('Error executing code:', error); // Debug log
