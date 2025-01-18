@@ -9,6 +9,10 @@ import EmojiObjectsTwoToneIcon from '@mui/icons-material/EmojiObjectsTwoTone';
 const CodeEditor = () => {
   const [code, setCode] = useState('def Solution(x):\n\t');
   const [question, setQuestion] = useState(0)
+  const [points, setPoints] = useState(0)
+  const [ifloop, setIfLoop] = useState(0)
+  const [forloop, setForLoop] = useState(0)
+  const [imports, setImports] = useState(0)
   const [output, setOutput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
