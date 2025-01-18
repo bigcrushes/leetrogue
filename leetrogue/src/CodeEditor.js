@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
 import { AppBar, Button, Box, Typography, TextField, Stack} from '@mui/material';
-import { Alert, AlertDescription } from './components/ui/alert';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import { useTheme } from '@mui/material/styles';
 import Dialogue from './components/ui/dialogue';
 import EmojiObjectsTwoToneIcon from '@mui/icons-material/EmojiObjectsTwoTone';
@@ -144,7 +144,8 @@ const CodeEditor = () => {
           {question === 1 && <span>Write a function that returns True if the number parameter is a palindrome and False if the number parameter is not a palindrome.</span>} 
           {question === 2 && <span>Given a list of numbers, x, find the maximum possible bitwise OR of a subset of x and return the number of different non-empty subsets that give that maximum OR.</span>}
           {question === 3 && <span>Given a string, find the longest palindromic substring.</span>}
-          {question === 4 && <span>You are given n nodes and a list of directed edges (u, v, w) where u is the source node, v is the target node and w is the time taken. Given a node k, return the minimum time it takes for all n nodes to receive the signal. </span>}  
+          {question === 4 && <span>You are given n nodes and a list of directed edges (u, v, w) where u is the source node, v is the target node and w is the time taken. Given a node k, return the minimum time it takes for all n nodes to receive the signal. </span>} 
+          {question === 5 && <span>Congrats! You won! </span>}  
         </Typography>
         <br/>   
         <br/>
@@ -209,13 +210,11 @@ const CodeEditor = () => {
         >
           <Typography>{isLoading ? 'Running...' : 'Run Code'}</Typography>
         </Button>
+        <Typography>
+        {error}
+        </Typography>
 
-        {error && (
-          <Alert variant="destructive" className="mb-4">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
+        {error && <ThumbDownAltIcon sx={{color:"white"}}/>}
             
         <div className="bg-gray-900 text-white p-4 rounded-lg font-mono whitespace-pre-wrap">
           {output }
