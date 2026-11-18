@@ -11,6 +11,19 @@ We were inspired by the game of the year - Balatro, a rogue-like poker game and 
 ## What it does
 You are given varying number of aura points for solving each question which you can use to unlock more if loops, for loops or import statements. How will you spend them? Should you save your aura points for more expensive upgrades or use them now? Can you come up with innovative solutions amidst these constraints? That's the beauty of LeetRogue. Even if you think that they've played these games before, can you overcome this new and MASSIVE challenge that we have in store?
 
+<p align="center">
+  <img width="1890" height="877" alt="image" src="https://github.com/user-attachments/assets/6d4a06b9-7153-4096-9be8-bac7f139dee5" />
+  <br>
+  <sub><b>Image 1:</b> Sample code editor page.</sub>
+  <br>
+  <br>
+  <br>
+  <img width="1912" height="900" alt="image" src="https://github.com/user-attachments/assets/79cb7a8c-0efe-41d2-b30a-c8c43fb230b1" />
+  <br>
+  <sub><b>Image 2:</b> Sample shop page.</sub>
+  <br>
+</p>
+
 ## How we built it
 The frontend is built on React and calls a backend running on Flask. We then styled the application using the Material UI library and in-line CSS.
 
